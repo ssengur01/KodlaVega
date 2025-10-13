@@ -1,0 +1,65 @@
+﻿@model List<CurrentService.WEBUI.Models.CariHareketleriDto>
+
+@if (Model != null && Model.Any())
+{
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Firma No</th>
+                    <th>Tarih</th>
+                    <th>İzahât</th>
+                    <th>Evrak No</th>
+                    <th>Ln</th>
+                    <th>Borç</th>
+                    <th>Alacak</th>
+                    <th>Bakiye</th>
+                    <th>Para Birimi</th>
+                    <th>Kur</th>
+                    <th>Ödeme Tarihi</th>
+                    <th>İşlem Tarihi</th>
+                    <th>Sıralama Tarihi</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FirmaNo</td>
+                        <td>@item.Tarih?.ToString("dd.MM.yyyy")</td>
+                        <td>@item.IzahatFromFunction</td>
+                        <td>@item.EvrakNo</td>
+                        <td>@item.Ln</td>
+                        <td>@item.Borc?.ToString("N2")</td>
+                        <td>@item.Alacak?.ToString("N2")</td>
+                        <td>@item.Bakiye?.ToString("N2")</td>
+                        <td>@item.ParaBirimi</td>
+                        <td>@item.Kur?.ToString("N2")</td>
+                        <td>@item.OdemeTarihi?.ToString("dd.MM.yyyy")</td>
+                        <td>@item.IslemTarihi?.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@item.SiralamaTarihi?.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            <a asp-controller="Cari"
+                               asp-action="Detay"
+                               asp-route-ind="@item.Ind"
+                               asp-route-faturaInd="@item.Ln"
+                               asp-route-documentType="@item.IzahatFromFunction"
+                               asp-route-firmaInd="@ViewBag.FirmaInd"
+                               asp-route-donemInd="@ViewBag.DonemInd"
+                               class="btn btn-warning btn-sm">
+                                Detay
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-info mt-4">
+        Bu cariye ait hareket bulunamadı.
+    </div>
+}

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StockDocument.Application\StockDocument.Application.csproj" />
+    <ProjectReference Include="..\StockDocument.Domain\StockDocument.Domain.csproj" />
+    <ProjectReference Include="..\StockDocument.Infrastructure\StockDocument.Infrastructure.csproj" />
+    <ProjectReference Include="..\StockDocument.Persistence\StockDocument.Persistence.csproj" />
+    <ProjectReference Include="..\StockDocument.Shared\StockDocument.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

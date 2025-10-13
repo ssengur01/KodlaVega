@@ -1,0 +1,397 @@
+﻿@model CurrentService.WEBUI.Models.FaturaViewModel
+
+@{
+    ViewBag.Title = "Fatura Detayı";
+}
+
+<h2 class="mb-4 text-center">Fatura Detayı</h2>
+
+@if (Model.AlFatBaslik != null)
+{
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-success text-white fw-bold">
+            Alış Faturası Başlık Bilgileri
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Belge No:</dt>
+                <dd class="col-sm-9">@Model.AlFatBaslik.BelgeNo</dd>
+                <dt class="col-sm-3">Tarih:</dt>
+                <dd class="col-sm-9">@Model.AlFatBaslik.Tarih?.ToString("dd.MM.yyyy")</dd>
+                <dt class="col-sm-3">Firma Adı:</dt>
+                <dd class="col-sm-9">@Model.AlFatBaslik.FirmaAdi</dd>
+                <dt class="col-sm-3">Ara Toplam:</dt>
+                <dd class="col-sm-9">@Model.AlFatBaslik.AraToplam?.ToString("N2")</dd>
+                <dt class="col-sm-3">Genel Toplam:</dt>
+                <dd class="col-sm-9">@Model.AlFatBaslik.GenelToplam?.ToString("N2")</dd>
+                <dt class="col-sm-3">Para Birimi:</dt>
+                <dd class="col-sm-9">@Model.AlFatBaslik.ParaBirimi</dd>
+                <dt class="col-sm-3">Kur:</dt>
+                <dd class="col-sm-9">@Model.AlFatBaslik.Kur?.ToString("N2")</dd>
+                <dt class="col-sm-3">Ödeme Tarihi:</dt>
+                <dd class="col-sm-9">@Model.AlFatBaslik.OdemeTarihi?.ToString("dd.MM.yyyy")</dd>
+            </dl>
+        </div>
+    </div>
+
+    @if (Model.AlFatHareketler?.Any() == true)
+    {
+        <div class="table-responsive mt-3">
+            <table class="table table-striped table-bordered">
+                <thead class="table-success text-center">
+                    <tr>
+                        <th>Stok Kodu</th>
+                        <th>Malın Cinsi</th>
+                        <th>Miktar</th>
+                        <th>Birim</th>
+                        <th>Fiyatı</th>
+                        <th>İndirim</th>
+                        <th>KDV</th>
+                        <th>KDV Tutarı</th>
+                        <th>Satır Toplam</th>
+                        <th>Açıklama</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var h in Model.AlFatHareketler)
+                    {
+                        <tr>
+                            <td>@h.StokKodu</td>
+                            <td>@h.MalinCinsi</td>
+                            <td>@h.Miktar?.ToString("N2")</td>
+                            <td>@h.Birim</td>
+                            <td>@h.Fiyati?.ToString("N2")</td>
+                            <td>@h.Indirim?.ToString("N2")</td>
+                            <td>@h.Kdv</td>
+                            <td>@h.KdvTutari?.ToString("N2")</td>
+                            <td>@h.SatirToplam?.ToString("N2")</td>
+                            <td>@h.Aciklama</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">Bu faturaya ait hareket bulunamadı.</div>
+    }
+}
+else if (Model.SatFatBaslik != null)
+{
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white fw-bold">
+            Satış Faturası Başlık Bilgileri
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Belge No:</dt>
+                <dd class="col-sm-9">@Model.SatFatBaslik.BELGENO</dd>
+                <dt class="col-sm-3">Tarih:</dt>
+                <dd class="col-sm-9">@Model.SatFatBaslik.TARIH?.ToString("dd.MM.yyyy")</dd>
+                <dt class="col-sm-3">Firma Adı:</dt>
+                <dd class="col-sm-9">@Model.SatFatBaslik.FIRMAADI</dd>
+                <dt class="col-sm-3">Ara Toplam:</dt>
+                <dd class="col-sm-9">@Model.SatFatBaslik.ARATOPLAM?.ToString("N2")</dd>
+                <dt class="col-sm-3">Tahsilat Tutarı:</dt>
+                <dd class="col-sm-9">@Model.SatFatBaslik.TAHSILATTUTARI?.ToString("N2")</dd>
+                <dt class="col-sm-3">Para Birimi:</dt>
+                <dd class="col-sm-9">@Model.SatFatBaslik.PARABIRIMI</dd>
+                <dt class="col-sm-3">KDV:</dt>
+                <dd class="col-sm-9">@(Model.SatFatBaslik.KDV == true ? "Evet" : "Hayır")</dd>
+                <dt class="col-sm-3">İade:</dt>
+                <dd class="col-sm-9">@(Model.SatFatBaslik.IADE == true ? "Evet" : "Hayır")</dd>
+            </dl>
+        </div>
+    </div>
+
+    @if (Model.SatFatHareketler?.Any() == true)
+    {
+        <div class="table-responsive mt-3">
+            <table class="table table-striped table-bordered">
+                <thead class="table-primary text-center">
+                    <tr>
+                        <th>Stok Kodu</th>
+                        <th>Malın Cinsi</th>
+                        <th>Miktar</th>
+                        <th>Birim</th>
+                        <th>Fiyatı</th>
+                        <th>KDV</th>
+                        <th>KDV Tutarı</th>
+                        <th>Gerçek Toplam</th>
+                        <th>Açıklama</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var h in Model.SatFatHareketler)
+                    {
+                        <tr>
+                            <td>@h.StokKodu</td>
+                            <td>@h.MalinCinsi</td>
+                            <td>@h.Miktar?.ToString("N2")</td>
+                            <td>@h.Birim</td>
+                            <td>@h.Fiyati?.ToString("N2")</td>
+                            <td>@h.Kdv</td>
+                            <td>@h.KdvTutari?.ToString("N2")</td>
+                            <td>@h.GercekToplam?.ToString("N2")</td>
+                            <td>@h.Aciklama</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">Bu faturaya ait hareket bulunamadı.</div>
+    }
+}
+else if (Model.CarGirBaslik != null)
+{
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-info text-white fw-bold">
+            Cari Giriş Başlık Bilgileri
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Belge No:</dt>
+                <dd class="col-sm-9">@Model.CarGirBaslik.BELGENO</dd>
+                <dt class="col-sm-3">Tarih:</dt>
+                <dd class="col-sm-9">@Model.CarGirBaslik.TARIH?.ToString("dd.MM.yyyy")</dd>
+                <dt class="col-sm-3">Cari Adı:</dt>
+                <dd class="col-sm-9">@Model.CarGirBaslik.FIRMANO</dd>
+                <dt class="col-sm-3">Toplam:</dt>
+                <dd class="col-sm-9">@Model.CarGirBaslik.TUTAR?.ToString("N2")</dd>
+            </dl>
+        </div>
+    </div>
+
+    @if (Model.CarGirHareketler?.Any() == true)
+    {
+        <div class="table-responsive mt-3">
+            <table class="table table-striped table-bordered">
+                <thead class="table-info text-center">
+                    <tr>
+                        <th>Açıklama</th>
+                        <th>Tutar</th>
+                        <th>Belge No</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var h in Model.CarGirHareketler)
+                    {
+                        <tr>
+                            <td>@h.Aciklama</td>
+                            <td>@h.Tutar?.ToString("N2")</td>
+                            <td>@h.BelgeNo</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">Bu cari girişe ait hareket bulunamadı.</div>
+    }
+}
+else if (Model.CarCikBaslik != null)
+{
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-warning text-dark fw-bold">
+            Cari Çıkış Başlık Bilgileri
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Belge No:</dt>
+                <dd class="col-sm-9">@Model.CarCikBaslik.BELGENO</dd>
+                <dt class="col-sm-3">Tarih:</dt>
+                <dd class="col-sm-9">@Model.CarCikBaslik.TARIH?.ToString("dd.MM.yyyy")</dd>
+                <dt class="col-sm-3">Cari Adı:</dt>
+                <dd class="col-sm-9">@Model.CarCikBaslik.FIRMANO</dd>
+                <dt class="col-sm-3">Toplam:</dt>
+                <dd class="col-sm-9">@Model.CarCikBaslik.TUTAR?.ToString("N2")</dd>
+            </dl>
+        </div>
+    </div>
+
+    @if (Model.CarCikHareketler?.Any() == true)
+    {
+        <div class="table-responsive mt-3">
+            <table class="table table-striped table-bordered">
+                <thead class="table-warning text-center">
+                    <tr>
+                        <th>Açıklama</th>
+                        <th>Tutar</th>
+                        <th>Belge No</th>
+                        <th>Port No</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var h in Model.CarCikHareketler)
+                    {
+                        <tr>
+                            <td>@h.Aciklama</td>
+                            <td>@h.Tutar?.ToString("N2")</td>
+                            <td>@h.BelgeNo</td>
+                            <td>@h.PortNo</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">Bu cari çıkışa ait hareket bulunamadı.</div>
+    }
+}
+
+else if (Model.StkGirBaslik != null)
+{
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-secondary text-white fw-bold">
+            Stok Giriş Başlık Bilgileri
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Belge No:</dt>
+                <dd class="col-sm-9">@Model.StkGirBaslik.BELGENO</dd>
+                <dt class="col-sm-3">Tarih:</dt>
+                <dd class="col-sm-9">@Model.StkGirBaslik.TARIH?.ToString("dd.MM.yyyy")</dd>
+                <dt class="col-sm-3">Firma Adı:</dt>
+                <dd class="col-sm-9">@Model.StkGirBaslik.FIRMAADI</dd>
+                <dt class="col-sm-3">Ara Toplam:</dt>
+                <dd class="col-sm-9">@Model.StkGirBaslik.ARATOPLAM?.ToString("N2")</dd>
+                <dt class="col-sm-3">Tutar:</dt>
+                <dd class="col-sm-9">@Model.StkGirBaslik.TUTAR?.ToString("N2")</dd>
+                <dt class="col-sm-3">Para Birimi:</dt>
+                <dd class="col-sm-9">@Model.StkGirBaslik.PARABIRIMI</dd>
+                <dt class="col-sm-3">Kur:</dt>
+                <dd class="col-sm-9">@Model.StkGirBaslik.KUR?.ToString("N2")</dd>
+                <dt class="col-sm-3">Ödeme Tarihi:</dt>
+                <dd class="col-sm-9">@Model.StkGirBaslik.ODEMETARIHI?.ToString("dd.MM.yyyy")</dd>
+            </dl>
+        </div>
+    </div>
+
+    @if (Model.StkGirHareketler?.Any() == true)
+    {
+        <div class="table-responsive mt-3">
+            <table class="table table-striped table-bordered">
+                <thead class="table-secondary text-center">
+                    <tr>
+                        <th>Stok Kodu</th>
+                        <th>Malın Cinsi</th>
+                        <th>Miktar</th>
+                        <th>Birim</th>
+                        <th>KDV</th>
+                        <th>Gerçek Toplam</th>
+                        <th>Depo</th>
+                        <th>Personel</th>
+                        <th>Para Birimi</th>
+                        <th>Açıklama</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var h in Model.StkGirHareketler)
+                    {
+                        <tr>
+                            <td>@h.StokKodu</td>
+                            <td>@h.MalinCinsi</td>
+                            <td>@h.Miktar?.ToString("N2")</td>
+                            <td>@h.Birim</td>
+                            <td>@h.Kdv</td>
+                            <td>@h.GercekToplam?.ToString("N2")</td>
+                            <td>@h.Depo</td>
+                            <td>@h.Personel</td>
+                            <td>@h.ParaBirimi</td>
+                            <td>@h.Aciklama</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">Bu stok girişine ait hareket bulunamadı.</div>
+    }
+}
+else if (Model.StkCikBaslik != null)
+{
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-danger text-white fw-bold">
+            Stok Çıkış Başlık Bilgileri
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Belge No:</dt>
+                <dd class="col-sm-9">@Model.StkCikBaslik.BELGENO</dd>
+                <dt class="col-sm-3">Tarih:</dt>
+                <dd class="col-sm-9">@Model.StkCikBaslik.TARIH?.ToString("dd.MM.yyyy")</dd>
+                <dt class="col-sm-3">Firma Adı:</dt>
+                <dd class="col-sm-9">@Model.StkCikBaslik.FIRMAADI</dd>
+                <dt class="col-sm-3">Ara Toplam:</dt>
+                <dd class="col-sm-9">@Model.StkCikBaslik.ARATOPLAM?.ToString("N2")</dd>
+                <dt class="col-sm-3">Tutar:</dt>
+                <dd class="col-sm-9">@Model.StkCikBaslik.TUTAR?.ToString("N2")</dd>
+                <dt class="col-sm-3">Para Birimi:</dt>
+                <dd class="col-sm-9">@Model.StkCikBaslik.PARABIRIMI</dd>
+                <dt class="col-sm-3">Kur:</dt>
+                <dd class="col-sm-9">@Model.StkCikBaslik.KUR?.ToString("N2")</dd>
+                <dt class="col-sm-3">KDV:</dt>
+                <dd class="col-sm-9">@(Model.StkCikBaslik.KDV == true ? "Evet" : "Hayır")</dd>
+            </dl>
+        </div>
+    </div>
+
+    @if (Model.StkCikHareketler?.Any() == true)
+    {
+        <div class="table-responsive mt-3">
+            <table class="table table-striped table-bordered">
+                <thead class="table-danger text-center">
+                    <tr>
+                        <th>Stok Kodu</th>
+                        <th>Malın Cinsi</th>
+                        <th>Miktar</th>
+                        <th>Birim</th>
+                        <th>Fiyatı</th>
+                        <th>KDV</th>
+                        <th>Gerçek Toplam</th>
+                        <th>Depo</th>
+                        <th>Personel</th>
+                        <th>Açıklama</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var h in Model.StkCikHareketler)
+                    {
+                        <tr>
+                            <td>@h.StokKodu</td>
+                            <td>@h.MalinCinsi</td>
+                            <td>@h.Miktar?.ToString("N2")</td>
+                            <td>@h.Birim</td>
+                            <td>@h.Fiyati?.ToString("N2")</td>
+                            <td>@h.Kdv</td>
+                            <td>@h.GercekToplam?.ToString("N2")</td>
+                            <td>@h.Depo</td>
+                            <td>@h.Personel</td>
+                            <td>@h.Aciklama</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">Bu stok çıkışına ait hareket bulunamadı.</div>
+    }
+}
+else
+{
+    <div class="alert alert-warning mt-4 text-center">
+        Görüntülenecek fatura bulunamadı.
+    </div>
+}

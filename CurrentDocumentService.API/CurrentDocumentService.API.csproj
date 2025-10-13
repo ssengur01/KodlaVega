@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CurrentDocument.Application\CurrentDocument.Application.csproj" />
+    <ProjectReference Include="..\CurrentDocument.Domain\CurrentDocument.Domain.csproj" />
+    <ProjectReference Include="..\CurrentDocument.Infrastructure\CurrentDocument.Infrastructure.csproj" />
+    <ProjectReference Include="..\CurrentDocument.Persistence\CurrentDocument.Persistence.csproj" />
+    <ProjectReference Include="..\CurrentDocument.Shared\CurrentDocument.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

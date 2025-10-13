@@ -1,0 +1,177 @@
+﻿@model CurrentService.WEBUI.Models.DetayDto
+@{
+    ViewData["Title"] = "Cari Detay";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+
+<div class="card shadow-sm mt-4">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Cari Detay - @Model. (@Model.FirmaKodu)</h5>
+    </div>
+    <div class="card shadow-sm" style="max-height: 500px; overflow-y: auto;">
+        <dl class="row">
+            <dt class="col-sm-3">Firma Ind</dt>
+            <dd class="col-sm-9">@Model.Ind</dd>
+
+            <dt class="col-sm-3">Firma Kodu</dt>
+            <dd class="col-sm-9">@Model.FirmaKodu</dd>
+
+            <dt class="col-sm-3">Firma Adı</dt>
+            <dd class="col-sm-9">@Model.FirmaAdi</dd>
+
+            <dt class="col-sm-3">Yetkili</dt>
+            <dd class="col-sm-9">@Model.Yetkili</dd>
+
+            <dt class="col-sm-3">Vergi Dairesi</dt>
+            <dd class="col-sm-9">@Model.VergiDairesi</dd>
+
+            <dt class="col-sm-3">Vergi No</dt>
+            <dd class="col-sm-9">@Model.VergiNo</dd>
+
+            <dt class="col-sm-3">Kayıt Tarihi</dt>
+            <dd class="col-sm-9">@Model.KayitTarihi?.ToString("dd.MM.yyyy")</dd>
+
+            <dt class="col-sm-3">Risk Limiti</dt>
+            <dd class="col-sm-9">@Model.RiskLimiti</dd>
+
+            <dt class="col-sm-3">Kredi Limiti</dt>
+            <dd class="col-sm-9">@Model.KrediLimiti</dd>
+
+            <dt class="col-sm-3">İskonto</dt>
+            <dd class="col-sm-9">@Model.Iskonto</dd>
+
+            <dt class="col-sm-3">Aylık Vade</dt>
+            <dd class="col-sm-9">@Model.Ayvilade</dd>
+
+            <dt class="col-sm-3">Opsiyon</dt>
+            <dd class="col-sm-9">@Model.Opsiyon</dd>
+
+            <dt class="col-sm-3">Durum</dt>
+            <dd class="col-sm-9">
+                <span class="badge @(Model.Status == 1 ? "bg-success" : "bg-secondary")">
+                    @(Model.Status == 1 ? "Aktif" : "Pasif")
+                </span>
+            </dd>
+
+            <dt class="col-sm-3">Kod 1</dt>
+            <dd class="col-sm-9">@Model.Kod1</dd>
+
+            <dt class="col-sm-3">Kod 2</dt>
+            <dd class="col-sm-9">@Model.Kod2</dd>
+
+            <dt class="col-sm-3">Kod 3</dt>
+            <dd class="col-sm-9">@Model.Kod3</dd>
+
+            <dt class="col-sm-3">Kod 4</dt>
+            <dd class="col-sm-9">@Model.Kod4</dd>
+
+            <dt class="col-sm-3">Kod 5</dt>
+            <dd class="col-sm-9">@Model.Kod5</dd>
+
+            <dt class="col-sm-3">Adı</dt>
+            <dd class="col-sm-9">@Model.Adi</dd>
+
+            <dt class="col-sm-3">Soyadı</dt>
+            <dd class="col-sm-9">@Model.Soyadi</dd>
+
+            <dt class="col-sm-3">Unvan</dt>
+            <dd class="col-sm-9">@Model.Unvan</dd>
+
+            <dt class="col-sm-3">İstihbarat</dt>
+            <dd class="col-sm-9">@Model.Istihbarat</dd>
+
+            <dt class="col-sm-3">Sektör</dt>
+            <dd class="col-sm-9">@Model.Sektor</dd>
+
+            <dt class="col-sm-3">Marka</dt>
+            <dd class="col-sm-9">@Model.Marka</dd>
+
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+
+            <dt class="col-sm-3">Telefon 1</dt>
+            <dd class="col-sm-9">@Model.Telefon1</dd>
+
+            <dt class="col-sm-3">Telefon 2</dt>
+            <dd class="col-sm-9">@Model.Telefon2</dd>
+
+            <dt class="col-sm-3">Telefon 3</dt>
+            <dd class="col-sm-9">@Model.Telefon3</dd>
+
+            <dt class="col-sm-3">Faks</dt>
+            <dd class="col-sm-9">@Model.Faks</dd>
+
+            <dt class="col-sm-3">Adres (Posta)</dt>
+            <dd class="col-sm-9">@Model.AdresPosta</dd>
+
+            <dt class="col-sm-3">Adres (Fatura)</dt>
+            <dd class="col-sm-9">@Model.AdresFatura</dd>
+
+            <dt class="col-sm-3">Para Birimi</dt>
+            <dd class="col-sm-9">@Model.ParaBirimi</dd>
+
+            <dt class="col-sm-3">Satış Yapılmasın</dt>
+            <dd class="col-sm-9">
+                <input type="checkbox" disabled="disabled" @(Model.SatisYapilmasin == true ? "checked" : "") />
+            </dd>
+
+            <dt class="col-sm-3">İl</dt>
+            <dd class="col-sm-9">@Model.Il</dd>
+
+            <dt class="col-sm-3">Şehir</dt>
+            <dd class="col-sm-9">@Model.Sehir</dd>
+
+            <dt class="col-sm-3">E-Fatura Kullanıcısı</dt>
+            <dd class="col-sm-9">@((Model.EfaturaKullanicisi ?? false) ? "Evet" : "Hayır")</dd>
+
+            <dt class="col-sm-3">E-Fatura Senaryo</dt>
+            <dd class="col-sm-9">@Model.EfaturaSenaryo</dd>
+
+            <dt class="col-sm-3">Alias</dt>
+            <dd class="col-sm-9">@Model.Alias</dd>
+        </dl>
+        <a asp-action="Index" class="btn btn-secondary mt-3">Geri Dön</a>
+    </div>
+</div>
+
+
+<button id="btnCariHareketleri"
+        class="btn btn-primary mb-3"
+        data-id="@Model.Ind"
+        data-firmaind="@ViewBag.FirmaInd"
+	    data-donemind="@ViewBag.DonemInd">
+    Cari Hareketlerini Getir
+</button>
+
+
+<div id="cariHareketleriContainer"></div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+        $(document).on("click", "#btnCariHareketleri", function () {
+        var cariId = $(this).data("id");
+        var firmaInd = $(this).data("firmaind");
+        var donemInd = $(this).data("donemind");
+
+        $("#cariHareketleriContainer").html('<div class="alert alert-warning">Cari hareketleri yükleniyor...</div>');
+
+        $.ajax({
+            url: `/Cari/GetCariHareketleri`,
+            type: 'GET',
+            data: { cariId: cariId, firmaInd: firmaInd, donemInd: donemInd },
+            dataType: 'html',
+            success: function(partialViewHtml) {
+                $("#cariHareketleriContainer").html(partialViewHtml);
+                
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText);
+				
+                $("#cariHareketleriContainer").html('<div class="alert alert-danger">Cari hareketleri alınırken hata oluştu.</div>');
+            }
+        });
+    });
+</script>

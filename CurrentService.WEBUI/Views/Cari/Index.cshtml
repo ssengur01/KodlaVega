@@ -1,0 +1,141 @@
+﻿@model List<CurrentService.WEBUI.Models.CariDto>
+@{
+    ViewData["Title"] = "Cari Listesi";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<div class="container mt-4">
+    <h2 class="mb-4">Cari Listesi</h2>
+    <form method="get">
+        <input type="hidden" name="listele" value="true" />
+        <button type="submit" class="btn btn-primary mb-3">Listele</button>
+    </form>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive" style="margin-bottom: 20px;">
+            <table class="table table-bordered table-striped align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Firma Ind</th>
+                        <th>Firma Kodu</th>
+                        <th>Vergi Dairesi</th>
+                        <th>Kayıt Tarihi</th>
+                        <th>Email</th>
+                        <th>İl</th>
+                        <th>Şehir</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Ind</td>
+                            <td>@item.FirmaKodu</td>
+                            <td>@item.VergiDairesi</td>
+                            <td>@item.KayitTarihi</td>
+                            <td>@item.Email</td>
+                            <td>@item.Il</td>
+                            <td>@item.Sehir</td>
+                            <td>
+                                <a asp-controller="Cari" asp-action="Details" asp-route-id="@item.Ind" class="btn btn-info btn-sm">
+                                    Detay
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Cari sayfalama">
+            <ul class="pagination justify-content-center flex-wrap p-2 border rounded" style="background-color:#f8f9fa;">
+                <li class="page-item @(ViewBag.CurrentPage <= 1 ? "disabled" : "")">
+                    <a class="page-link" href="?listele=true&page=@(ViewBag.CurrentPage - 1)">Back</a>
+                </li>
+
+                @{
+                    int pageWindow = ViewBag.PageWindow;
+                    int totalPages = ViewBag.TotalPages;
+                    int currentPage = ViewBag.CurrentPage;
+
+                    int startPage = Math.Max(1, currentPage - pageWindow / 2);
+                    int endPage = Math.Min(totalPages, startPage + pageWindow - 1);
+
+                    if (endPage - startPage + 1 < pageWindow)
+                    {
+                        startPage = Math.Max(1, endPage - pageWindow + 1);
+                    }
+                }
+
+                @for (int i = startPage; i <= endPage; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="?listele=true&page=@i">@i</a>
+                    </li>
+                }
+
+                <li class="page-item @(ViewBag.CurrentPage >= totalPages ? "disabled" : "")">
+                    <a class="page-link" href="?listele=true&page=@(ViewBag.CurrentPage + 1)">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+
+    }
+    else if (ViewBag.Listele == true)
+    {
+        <div class="alert alert-info">Listelenecek cari bulunamadı.</div>
+    }
+
+    <div id="cariDetay" style="position: sticky; top: 20px; max-height: 500px; overflow-y: auto; margin-top: 20px;"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // AJAX ile detay
+    $(document).on("click", ".detay-btn", function () {
+        var id = $(this).data("id");
+        var firmaInd = $(this).data("firmaind");
+        $("#cariDetay").html('<div class="alert alert-warning">Detay yükleniyor...</div>');
+        $.get("/Cari/DetailsPartial", { id: id, firmaInd: firmaInd }, function (data) {
+            $("#cariDetay").html(data);
+        });
+    });
+
+    // Client-side Pagination
+    $(document).ready(function () {
+        var rowsPerPage = 10;
+        var rows = $('#cariTable tbody tr');
+        var rowsCount = rows.length;
+        var pageCount = Math.ceil(rowsCount / rowsPerPage);
+
+        if (pageCount <= 1) return; // 1 sayfadan azsa pagination göstermiyoruz
+
+        for (var i = 1; i <= pageCount; i++) {
+            $('#pagination').append('<li class="page-item"><a href="#" class="page-link">' + i + '</a></li>');
+        }
+
+        rows.hide();
+        rows.slice(0, rowsPerPage).show();
+        $('#pagination li:first').addClass('active');
+
+        $('#pagination li a').click(function (e) {
+            e.preventDefault();
+            $('#pagination li').removeClass('active');
+            $(this).parent().addClass('active');
+
+            var pageIndex = parseInt($(this).text()) - 1;
+            var start = pageIndex * rowsPerPage;
+            var end = start + rowsPerPage;
+            rows.hide();
+            rows.slice(start, end).show();
+
+            // Detay divi sayfa değişince temizlensin
+            $("#cariDetay").html('');
+        });
+    });
+</script>
