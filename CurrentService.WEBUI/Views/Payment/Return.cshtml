@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "3D Ödeme Sonucu";
+    var status = ViewBag.Status as string ?? "unknown";
+    var message = ViewBag.Message as string ?? "Bilinmeyen sonuç.";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 text-center">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0">🔒 3D Secure Sonucu</h4>
+                </div>
+                <div class="card-body p-4">
+                    @if (status.ToLower() == "success")
+                    {
+                        <div class="alert alert-success">✅ Ödeme Başarılı! <br /> @message</div>
+                    }
+                    else if (status.ToLower() == "pending")
+                    {
+                        <div class="alert alert-warning">⏳ Ödeme Beklemede! <br /> @message</div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">❌ Ödeme Başarısız! <br /> @message</div>
+                    }
+
+                    <a href="/Payment" class="btn btn-outline-primary mt-3">Yeni Ödeme Yap</a>
+                </div>
+                <div class="card-footer text-muted">
+                    İşlem sonucu Paynet sandbox üzerinden alınmıştır.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
